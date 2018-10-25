@@ -52,6 +52,7 @@ class Joyride extends React.Component {
     hideBackButton: PropTypes.bool,
     locale: PropTypes.object,
     run: PropTypes.bool,
+    resetOnClose: PropTypes.bool,
     scrollOffset: PropTypes.number,
     scrollToFirstStep: PropTypes.bool,
     showProgress: PropTypes.bool,
@@ -76,6 +77,7 @@ class Joyride extends React.Component {
     disableScrolling: false,
     hideBackButton: false,
     run: true,
+    resetOnClose: false,
     scrollOffset: 20,
     scrollToFirstStep: false,
     showSkipButton: false,
@@ -199,6 +201,17 @@ class Joyride extends React.Component {
       });
 
       let currentIndex = index;
+
+      if(this.state.action === "close" && this.props.resetOnClose){
+        // Case whereby reset on close is used and previous state index and current state index is at the start
+        this.callback({
+          ...this.state,
+          index: currentIndex,
+          step,
+          type : EVENTS.TOUR_START,
+        });
+        return;
+      }
 
       if (changed('status')) {
         let type = EVENTS.TOUR_STATUS;

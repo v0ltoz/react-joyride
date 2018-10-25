@@ -26,7 +26,7 @@ export default function createStore(props: StateObject): StateInstance {
   class Store {
     listener: Function;
 
-    constructor({ continuous = false, stepIndex, steps = [] }: Object = {}) {
+    constructor({ continuous = false, stepIndex, steps = [], resetOnClose = false }: Object = {}) {
       this.setState({
         action: ACTIONS.INIT,
         controlled: is.number(stepIndex),
@@ -34,6 +34,7 @@ export default function createStore(props: StateObject): StateInstance {
         index: is.number(stepIndex) ? stepIndex : 0,
         lifecycle: LIFECYCLE.INIT,
         status: steps.length ? STATUS.READY : STATUS.IDLE,
+        resetOnClose : resetOnClose
       }, true);
 
       this.setSteps(steps);
@@ -59,6 +60,7 @@ export default function createStore(props: StateObject): StateInstance {
       if (initial) {
         store.set('controlled', nextState.controlled);
         store.set('continuous', nextState.continuous);
+        store.set('resetOnClose', nextState.resetOnClose)
       }
 
       /* istanbul ignore else */
@@ -242,9 +244,15 @@ export default function createStore(props: StateObject): StateInstance {
       const { index, status } = this.getState();
       if (status !== STATUS.RUNNING) return;
 
-      this.setState({
-        ...this.getNextState({ action: ACTIONS.CLOSE, index: index + 1 }),
-      });
+      if(store.get('resetOnClose')){
+        this.setState({
+          ...this.getNextState({ action: ACTIONS.CLOSE, index: 0 })
+        });
+      }else{
+        this.setState({
+          ...this.getNextState({ action: ACTIONS.CLOSE, index: index + 1 }),
+        });
+      }
     };
 
     skip = () => {

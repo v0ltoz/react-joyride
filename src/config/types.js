@@ -1,4 +1,5 @@
 import type { Node } from 'react';
+import PropTypes from "prop-types";
 
 export type StateHelpers = {
   close: Function,
@@ -74,6 +75,7 @@ export type JoyrideProps = {
   hideBackButton: boolean,
   locale: ?Object,
   run: boolean,
+  resetOnClose: boolean,
   scrollOffset: number,
   scrollToFirstStep: boolean,
   showProgress: boolean,

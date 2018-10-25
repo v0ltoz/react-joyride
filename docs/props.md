@@ -36,6 +36,9 @@ The strings used in the tooltip.
 **run** {boolean} ▶︎ `true`  
 Run/stop the tour.
 
+**resetOnClose** {boolean} ▶︎ `false`
+On close of the tooltip the tour is reset to the beginning
+
 **scrollOffset** {number} ▶︎ `20`  
 The scroll distance from the element scrollTop value.
 
