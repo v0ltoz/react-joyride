@@ -189,6 +189,12 @@ class Joyride extends React.Component {
     const diffState = !isEqual(prevState, this.state);
     let step = getMergedStep(steps[index], this.props);
 
+    if(prevState.action === "reset"){
+      // On reset start the store
+      const { start } = this.store;
+      start();
+    }
+
     if (diffState) {
       log({
         title: 'state',

@@ -245,9 +245,7 @@ export default function createStore(props: StateObject): StateInstance {
       if (status !== STATUS.RUNNING) return;
 
       if(store.get('resetOnClose')){
-        this.setState({
-          ...this.getNextState({ action: ACTIONS.CLOSE, index: 0 })
-        });
+        this.reset();
       }else{
         this.setState({
           ...this.getNextState({ action: ACTIONS.CLOSE, index: index + 1 }),
