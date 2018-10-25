@@ -189,8 +189,11 @@ class Joyride extends React.Component {
     const diffState = !isEqual(prevState, this.state);
     let step = getMergedStep(steps[index], this.props);
 
-    if(prevState.action === "reset"){
-      // On reset start the store
+    // If the next action is seen and the index is equal to the size we must reset
+    let mustReset = prevState.action === "next" && (prevState.index === prevState.size);
+    if(prevState.action === "reset" || mustReset){
+      // if reset or index's equal we must reset the tour
+      this.store.reset();
       const { start } = this.store;
       start();
     }
